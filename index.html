@@ -4,16 +4,26 @@
   <script type='text/javascript' src='deck.js'></script>
   <script type='text/javascript' src='tracker.js'></script>
   </script>
+
+  <style>
+    .card {
+      height: 100px;
+      width: 75px;
+      border: 1px solid black;
+    }
+  </style>
+
   <script>
 
-  	var sampleCards = ['rout', 'banzai!', 'pacifism', 'champion'];
-  	var deck = Deck(sampleCards)
+  	var sampleCards = ['rout', 'banzai!', 'pacifism', 'doji hotaru'];
+  	var deck = Deck(sampleCards);
+    var hand = Hand();
 
-  	var sampleProvinces = [1,2,3,4,5]
-  	var provinces = ProvinceBoard(sampleProvinces)
+  	var sampleProvinces = [1,2,3,4,5];
+  	var provinces = ProvinceBoard(sampleProvinces);
 
-  	var fateTracker = Tracker('Fate: ')
-  	var honorTracker = Tracker('Honor: ')
+  	var fateTracker = Tracker('Fate: ');
+  	var honorTracker = Tracker('Honor: ');
 
   </script>
 </html>
