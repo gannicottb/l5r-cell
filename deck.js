@@ -10,15 +10,23 @@ Deck = function(sampleCards) {
   return {
     $cell: true,
     id: 'deck',
+    class: 'card',
     _cards: [],
     _count() { return this._cards.length },
     $init() { 
       this._cards = sampleCards.map(Card);
-      this.$components.push({ id: 'deck-counter', $text: this._count(), class: 'card'})
+      this.$components.push();
     },
     onclick() { if(this._count() > 0) { document.querySelector('#hand')._add(this._cards.pop()) } },
-    $update() { this.querySelector('#deck-counter').$text = this._count()},
-    $components: []
+    $update() { this.querySelector('#deck-counter')._display(this._count())},
+    $components: [
+      { 
+        id: 'deck-counter',
+        _display(count) { this.$text = 'Cards: ' + count},
+        $init() {this._display(this._count())},
+      },
+      { $type: 'span', $text: 'Click To Draw'}
+    ]
   }
 }
 
