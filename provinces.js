@@ -10,15 +10,35 @@ Breakable = function(id) {
   }
 }
 
-ProvinceBoard = function(ids) {
+Province = function(text) {
   return {
-    $cell: true,
+    class: 'card card--province',
+    style: 'padding-top: 20px;',
+    $text: text,
+    _card: null,
+    _broken: false,
+    _flipped: false,
+    _filled() { return this._card !== null;},
+    _fill(card) { this._card = card; },
+    $update() { this.$components = [this._card] }
+  }
+}
+
+ProvinceBoard = function(id, provinceCards) {
+  return {
+    id: id,
     $type: 'div',
     style: 'display: flex',
-    _ids: ids,
-    _province(id) { return Breakable(id)},
-    _load() { this.$components = this._ids.map(i => this._province(i)) },
-    $init() { this._load() },
+    _provinces: [],
+    _load() { this.$components = this._provinces },
+    _add(card) {
+      var p = this._provinces.find(p => !p._filled());
+      p._fill(card);
+    },
+    $init() { 
+      this._provinces = provinceCards.map(c => Province(c));
+      this._load(); 
+    },
     $update() { this._load() }
   }
 }

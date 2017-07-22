@@ -1,4 +1,4 @@
-var Card = function(text) {
+Card = function(text) {
   return {
     $type: 'div',
     class: 'card',
@@ -6,37 +6,47 @@ var Card = function(text) {
   }
 }
 
-Deck = function(sampleCards) {
+Deck = function(playAreaId, initialCards) {
   return {
-    $cell: true,
-    id: 'deck',
     class: 'card',
     _cards: [],
     _count() { return this._cards.length },
-    $init() { 
-      this._cards = sampleCards.map(Card);
-      this.$components.push();
+    _draw() {
+      if(this._count() > 0) { 
+        document.getElementById(playAreaId)._add(this._cards.shift()) 
+      } 
     },
-    onclick() { if(this._count() > 0) { document.querySelector('#hand')._add(this._cards.pop()) } },
-    $update() { this.querySelector('#deck-counter')._display(this._count())},
+    $init() { 
+      this._cards = initialCards.map(Card);
+      this._cards = _.shuffle(this._cards);
+    },
+    $update() { 
+      this.querySelector('.deck-counter')._display(this._count());
+      this.querySelector('.deck-draw').disabled = this._count() <= 0;
+    },
     $components: [
       { 
-        id: 'deck-counter',
+        class: 'deck-counter',
         _display(count) { this.$text = 'Cards: ' + count},
         $init() {this._display(this._count())},
       },
-      { $type: 'span', $text: 'Click To Draw'}
+      { 
+        class: 'deck-draw', 
+        $type: 'button', 
+        $text: 'Click To Draw', 
+        onclick() { this._draw(); }
+      }
     ]
   }
 }
 
-Hand = function() {
+Hand = function(playAreaId) {
   return {
     $cell: true,
-    id: 'hand',
-    style: 'height: 100px; padding: 10px; border:1px dashed black; display: flex',
+    id: playAreaId,
+    class: 'hand',
     _items: [],
-    _add(card) { this._items.push(card) },
+    _add(card) { this._items.unshift(card) },
     $update() { this.$components = this._items;}
   }
 }

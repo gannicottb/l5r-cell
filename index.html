@@ -1,5 +1,6 @@
 <html>
   <script src="https://www.celljs.org/cell.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script type='text/javascript' src='provinces.js'></script>
   <script type='text/javascript' src='deck.js'></script>
   <script type='text/javascript' src='tracker.js'></script>
@@ -11,16 +12,42 @@
       width: 75px;
       border: 1px solid black;
     }
+    .hand {
+      height: 100px;
+      width: 600px;
+      padding: 10px;
+      border:1px dashed black;
+      display: flex;
+      flex-direction: row-reverse;
+    }
+    .wrapper {
+      display: flex; 
+      align-items: center;
+    }
   </style>
 
   <script>
 
-  	var sampleCards = ['rout', 'banzai!', 'pacifism', 'doji hotaru'];
-  	var deck = Deck(sampleCards);
-    var hand = Hand();
+  	var conflictCards = ['Good Omen', 'Let Go', 'Court Games', 'Cloud The Mind'];
+    var dynastyCards = ['Doji Gift-Giver', 'Doji Whisperer', 'Kakita Asami', 'Brash Samurai'];
 
-  	var sampleProvinces = [1,2,3,4,5];
-  	var provinces = ProvinceBoard(sampleProvinces);
+    var dynasty = {
+      $cell: true,
+      class: 'wrapper',
+      $components: [
+        Deck('province-board', dynastyCards), 
+        ProvinceBoard('province-board', [1,2,3,4])
+      ]
+    }
+
+    var conflict = {
+      $cell: true,
+      class: 'wrapper',
+      $components: [
+        Hand('conflict_hand'), 
+        Deck('conflict_hand', conflictCards)
+      ]
+    }
 
   	var fateTracker = Tracker('Fate: ');
   	var honorTracker = Tracker('Honor: ');
